@@ -1,0 +1,54 @@
+@use '../src/assets/style/funcs' as *;
+
+.modal {
+  background: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.8rem;
+
+  &__close {
+    background: color('primary');
+    aspect-ratio: 1/1;
+    width: 30px;
+    font-size: 1rem;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  &__wrapper {
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: rem(20);
+    background: color('light');
+  }
+
+  &__body {
+    padding: rem(20);
+  }
+}
+
+.modal.--opened {
+  visibility: initial;
+}
