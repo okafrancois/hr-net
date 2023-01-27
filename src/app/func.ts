@@ -128,7 +128,7 @@ export const editUserData: EditUserFunc = (data, dispatch, resolveCallback) => {
 }
 export const getEmployees = (token: string, dispatch: (arg0: any) => void) => {
     dispatch(getEmployeesRequest());
-    const uri = `${import.meta.env.VITE_API_URL}/user/employees`;
+    const uri = `${import.meta.env.VITE_API_URL}/user/employees/page=1?limit=5`;
 
     const myHeaders = new Headers({
         "Content-Type": "application/json",

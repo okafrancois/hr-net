@@ -26,12 +26,10 @@ module.exports.createEmployee = async serviceData => {
             startDate: serviceData.body.startDate,
             jobTitle: serviceData.body.jobTitle,
             department: serviceData.body.department,
-            address: {
-                street: serviceData.body.address.street,
-                city: serviceData.body.address.city,
-                state: serviceData.body.address.state,
-                zipcode: serviceData.body.address.zipcode,
-            },
+            street: serviceData.body.street,
+            city: serviceData.body.city,
+            state: serviceData.body.state,
+            zipcode: serviceData.body.zipcode,
             createdById: userId,
         });
 
@@ -43,7 +41,7 @@ module.exports.createEmployee = async serviceData => {
     }
 };
 
-module.exports.getEmployees = async serviceData => {
+module.exports.getEmployees = async (serviceData, page = 1, limit = 10) => {
     try {
         const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim();
         const decodedJwtToken = jwt.decode(jwtToken);
@@ -53,12 +51,23 @@ module.exports.getEmployees = async serviceData => {
             throw new Error('User not found!');
         }
 
-        return await Employee.find().sort({ createdAt: -1 }).lean();
+        const totalDocuments = await Employee.countDocuments();
+        const totalPages = Math.ceil(totalDocuments / limit);
+        const currentPage = page;
+        const remainingPages = totalPages - currentPage;
+        const employees = await Employee.find()
+            .skip((page - 1) * limit)
+            .limit(limit)
+            .sort({createdAt: -1})
+            .lean();
+
+        return {employees, totalDocuments, totalPages, currentPage, limit, remainingPages};
     } catch (error) {
         console.error('Error in employeeService.js', error);
         throw new Error(error);
     }
 };
+
 
 module.exports.updateEmployee = async serviceData => {
     try {

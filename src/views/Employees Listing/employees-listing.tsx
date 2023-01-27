@@ -6,8 +6,62 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {useNavigate} from "react-router";
 import {getEmployees} from "../../app/func";
 import AddEmployee from "../../components/AddEmployee/add-employee";
-import Modal from "../../components/Modal/modal";
+import SpModal from "sp-modal";
+import TableComponent from "../../components/TableComponent/table-component";
 
+const headers = [
+    {
+        name: 'First Name',
+        key: 'firstName',
+        sortable: true
+
+    },
+    {
+        name: 'Last Name',
+        key: 'lastName',
+        sortable: true
+    },
+    {
+        name: 'Birth Date',
+        key: 'birthDate',
+        sortable: true
+    },
+    {
+        name: 'Start Date',
+        key: 'startDate',
+        sortable: true
+    },
+    {
+        name: 'Job Title',
+        key: 'jobTitle',
+        sortable: true
+    },
+    {
+        name: 'Department',
+        key: 'department',
+        sortable: true
+    },
+    {
+        name: 'Street',
+        key: 'street',
+        sortable: true
+    },
+    {
+        name: 'City',
+        key: 'city',
+        sortable: true
+    },
+    {
+        name: 'State',
+        key: 'state',
+        sortable: true
+    },
+    {
+        name: 'Zip Code',
+        key: 'zipcode',
+        sortable: true
+    },
+]
 const EmployeesListing = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
@@ -35,23 +89,24 @@ const EmployeesListing = () => {
 
     const [modalState, setModalState] = useState(false)
 
-    const handleModalToggle = (e: any) => {
+    function handleModalToggle(e: any) {
         if (e) {
             e.preventDefault();
         }
         setModalState(!modalState)
     }
 
-    const openModal = (e: any) => {
+    const openModal = function(e: any) {
         if (e) {
             e.preventDefault();
         }
-        setModalState(!modalState)
+        setModalState(true)
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = function(e: any) {
         e.preventDefault();
     }
+
     return (
         <Layout containerClass={"employees-listing-view"}>
             <h1>Employees Listing</h1>
@@ -77,82 +132,12 @@ const EmployeesListing = () => {
                         </Link>
                     </label>
                 </div>
-                <table className="listing-table">
-                    <thead className="listing-table__headers">
-                        <tr>
-                            <th className="listing-table__header">
-                                <span>First name</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                            <th className="listing-table__header">
-                                <span>Last name</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                            <th className="listing-table__header">
-                                <span>Birth Date</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                            <th className="listing-table__header">
-                                <span>Start Date</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                            <th className="listing-table__header">
-                                <span>Job title</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                            <th className="listing-table__header">
-                                <span>Department</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                            <th className="listing-table__header">
-                                <span>Street</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                            <th className="listing-table__header">
-                                <span>City</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                            <th className="listing-table__header">
-                                <span>State</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                            <th className="listing-table__header">
-                                <span>Zip Code</span>
-                                <i className="fa-solid fa-sort"></i>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        employees.map((employee, index) => (
-                            <EmployeeRow key={employee._id} data={employee}/>
-                        ))
-                    }
-                    </tbody>
-                </table>
+                <TableComponent headers={headers} data={employees}/>
             </form>
-            <Modal title={"Add new employee"} state={modalState} closeHandler={handleModalToggle}>
+            <SpModal title={"Add new employee"} visible={modalState} closeHandler={handleModalToggle}>
                 <AddEmployee submitCallBack={handleModalToggle}/>
-            </Modal>
+            </SpModal>
         </Layout>
-    );
-};
-
-const EmployeeRow = ({data}: any) => {
-    const {firstName, lastName, birthDate, startDate, jobTitle, department, address} = data;
-    return (
-        <tr className="listing-table__row">
-            <td className="listing-table__cell">{firstName}</td>
-            <td className="listing-table__cell">{lastName}</td>
-            <td className="listing-table__cell">{birthDate}</td>
-            <td className="listing-table__cell">{startDate}</td>
-            <td className="listing-table__cell">{jobTitle}</td>
-            <td className="listing-table__cell">{department}</td>
-            <td className="listing-table__cell">{address.street}</td>
-            <td className="listing-table__cell">{address.city}</td>
-            <td className="listing-table__cell">{address.state}</td>
-            <td className="listing-table__cell">{address.zipcode}</td>
-        </tr>
     );
 };
 

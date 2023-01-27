@@ -10,6 +10,10 @@ export interface Employee {
     email: string;
     phoneNumber: number;
     arrivalDate: string;
+    street: string,
+    city: string,
+    state: string,
+    zipcode: number,
     createById: string;
     createdAt: string;
     updatedAt: string;

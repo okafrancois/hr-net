@@ -1,12 +1,5 @@
 const mongoose = require('mongoose')
 
-const AddressSchema = new mongoose.Schema({
-    street: String,
-    city: String,
-    state: String,
-    zipcode: String,
-})
-
 const employeeSchema = new mongoose.Schema(
     {
         firstName: String,
@@ -15,7 +8,10 @@ const employeeSchema = new mongoose.Schema(
         startDate: String,
         jobTitle: String,
         department: String,
-        address: AddressSchema,
+        street: String,
+        city: String,
+        state: String,
+        zipcode: String,
         createdById: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     },
     {

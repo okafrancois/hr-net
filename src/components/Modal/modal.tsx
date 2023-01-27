@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import './modal.scss'
 import PropTypes from "prop-types";
 
@@ -47,8 +47,29 @@ const Modal: React.FC<ModalProps> = ({children, title, state, closeHandler}) => 
         headerContent = formatHeaderContent(title);
     }
 
+    const handleOutsideClick = (e: any) => {
+        if (e.target.classList.contains('modal')) {
+            closeHandler();
+        }
+    }
+
+    const handleEscape = (e: any) => {
+        e.preventDefault();
+        if (e.key === 'Escape') {
+            closeHandler();
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleEscape);
+
+        return () => {
+            document.removeEventListener('keydown', handleEscape);
+        }
+    })
+
     return (
-        <div className={`modal${state ? ' --opened' : ''}`} >
+        <div className={`modal${state ? ' --opened' : ''}`} onClick={handleOutsideClick}>
             <div className="modal__overlay"></div>
             <div className="modal__wrapper">
                 <button className="modal__close" onClick={closeHandler}>

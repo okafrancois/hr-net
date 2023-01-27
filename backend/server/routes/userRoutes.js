@@ -26,7 +26,7 @@ router.post(
 )
 
 router.get(
-    '/employees',
+    '/employees/:page/:limit',
     tokenValidation.validateToken,
     employeeController.getEmployees
 )

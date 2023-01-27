@@ -4,7 +4,10 @@ module.exports.getEmployees = async (req, res) => {
     let response = {}
 
     try {
-        const responseFromService = await employeeService.getEmployees(req)
+        const {page, limit} = req.params
+        const pageAsInteger = parseInt(page);
+        const limitAsInteger = parseInt(limit);
+        const responseFromService = await employeeService.getEmployees(req, pageAsInteger, limitAsInteger);
         response.status = 200
         response.message = 'Successfully got employees'
         response.body = responseFromService
