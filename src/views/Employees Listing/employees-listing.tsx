@@ -65,11 +65,16 @@ const headers = [
 const EmployeesListing = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
-
     const loggedIn = useAppSelector(state => state.auth.loggedIn)
     const token = useAppSelector(state => state.auth.token)
     const user = useAppSelector(state => state.user.data)
     const employees = useAppSelector(state => state.employees.data)
+    const {totalDocuments, totalPages, limit, currentPage} = useAppSelector(state => state.employees)
+
+    const [filters, setFilters] = useState({
+        search: '',
+        sort: 'name',
+    })
 
     useEffect(() => {
         if (!loggedIn || !token) {
@@ -77,15 +82,9 @@ const EmployeesListing = () => {
         }
 
         if (token && user) {
-            getEmployees(token, dispatch)
+            getEmployees(token, dispatch, limit, currentPage)
         }
     }, [loggedIn, navigate])
-
-    const [formState, setFormState] = useState({
-        activeSearch: '',
-        activeSort: 'name',
-        page: 1,
-    })
 
     const [modalState, setModalState] = useState(false)
 
@@ -94,6 +93,19 @@ const EmployeesListing = () => {
             e.preventDefault();
         }
         setModalState(!modalState)
+    }
+
+    const handleLimitChange = function(e: any) {
+        const {value} = e.target;
+        if(token) {
+            getEmployees(token, dispatch, value, 1)
+        }
+    }
+
+    const handlePageChange = function(page: number) {
+        if (token) {
+            getEmployees(token, dispatch, limit, page)
+        }
     }
 
     const openModal = function(e: any) {
@@ -119,7 +131,8 @@ const EmployeesListing = () => {
                     <label className={"employee-listing-form__field"}>
                         <span>Entries to show</span>
                         <div className="custom-select">
-                            <select className={"input"} defaultValue={"10"}>
+                            <select className={"input"} name={"limit"} value={limit} onChange={handleLimitChange}>
+                                <option value="5">5</option>
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                             </select>
@@ -132,7 +145,15 @@ const EmployeesListing = () => {
                         </Link>
                     </label>
                 </div>
-                <TableComponent headers={headers} data={employees}/>
+                <TableComponent
+                    headers={headers}
+                    data={employees}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    limit={limit}
+                    totalResults={totalDocuments}
+                    onPageChange={handlePageChange}
+                />
             </form>
             <SpModal title={"Add new employee"} visible={modalState} closeHandler={handleModalToggle}>
                 <AddEmployee submitCallBack={handleModalToggle}/>

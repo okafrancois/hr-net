@@ -1,11 +1,13 @@
 @use "../../assets/style/funcs" as *;
 
 .table-component {
-  width: 100%;
-  border: 1px solid darken(color('light'), 5%);
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: rem(3) rem(3) 0 0;
+  &__table {
+    width: 100%;
+    border: 1px solid darken(color('light'), 5%);
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: rem(3);
+  }
 
   &__headers {
     background: color('light');
@@ -27,6 +29,37 @@
   &__row:last-child {
     td {
       border: none;
+    }
+  }
+
+  &__pagination {
+    margin-top: rem(10);
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: rem(5);
+
+    &__next,
+    &__prev,
+    &__page{
+      cursor: pointer;
+      width: rem(35);
+      aspect-ratio: 1/1;
+      border-radius: rem(3);
+      background: color('light');
+    }
+
+    &__pages {
+      display: flex;
+      gap: rem(5);
+    }
+
+    .--active {
+      background: color('primary');
+      color: color('light');
     }
   }
 }

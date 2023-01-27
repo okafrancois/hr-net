@@ -1,30 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import './table-component.scss'
+import { TableData, TableHeader } from './table-component.types';
 
 /**
  * Configuration
  */
 
-interface TableHeader {
-    name: string;
-    key: string;
-    sortable: boolean;
-}
-
-interface TableData {
-    headers: TableHeader[];
-    data: object[];
-}
-
 /**
  * Main component
  */
-const TableComponent: React.FC<TableData> = ({headers, data}) => {
+const TableComponent: React.FC<TableData> = ({headers, data, limit, sortKey, currentPage, onPageChange, totalResults, totalPages}) => {
     const [tableEntries, setTableEntries]: any = useState(null);
+    const [showPagination, setShowPagination] = useState(true);
 
     useEffect(() => {
         setTableEntries(data);
-    }, [data]);
+
+    }, [data, limit, sortKey, currentPage, totalResults, totalPages]);
 
     const applyFilter = (sortKey: string) => {
         const sortedData = [...data].sort((a: any, b: any) => {
@@ -36,36 +28,67 @@ const TableComponent: React.FC<TableData> = ({headers, data}) => {
         applyFilter(value);
     }
 
+    const loadNextPage = () => {
+        if (onPageChange && currentPage) {
+            onPageChange(currentPage + 1);
+        }
+    }
+
+    const loadPrevPage = () => {
+        if (onPageChange && currentPage) {
+            onPageChange(currentPage - 1);
+        }
+    }
+
+    const handlePageChange = (e: any) => {
+        const {value} = e.target;
+        if (onPageChange) {
+            onPageChange(value);
+        }
+    }
+
     return (
-        <table className={"table-component"}>
-            <thead className="table-component__headers">
-            <tr>
+        <div className={"table-component"}>
+            <table className="table-component__table">
+                <thead className="table-component__headers">
+                <tr>
+                    {
+                        headers.map((header, index) => (
+                            <th key={`table-item-${index + 1}`} className="table-component__header">
+                                <div></div>
+                                <span>{header.name}</span>
+                                {
+                                    header.sortable &&
+                                    <button className={"table-component-filter"} onClick={() => {
+                                        handleFilterClick(header.key)}
+                                    }>
+                                        <i className="fa-solid fa-sort"></i>
+                                    </button>
+                                }
+                            </th>
+                        ))
+                    }
+                </tr>
+                </thead>
+                <tbody>
                 {
-                    headers.map((header, index) => (
-                        <th key={`table-item-${index + 1}`} className="table-component__header">
-                            <div></div>
-                            <span>{header.name}</span>
-                            {
-                                header.sortable &&
-                                <button className={"table-component-filter"} onClick={() => {
-                                    handleFilterClick(header.key)}
-                                }>
-                                    <i className="fa-solid fa-sort"></i>
-                                </button>
-                            }
-                        </th>
+                    tableEntries && tableEntries.map((item: any, index: number) => (
+                        <TableRow key={`table-row-${index + 1}`} data={item} headers={headers}/>
                     ))
                 }
-            </tr>
-            </thead>
-            <tbody>
+                </tbody>
+            </table>
             {
-                tableEntries && tableEntries.map((item: any, index: number) => (
-                    <TableRow key={`table-row-${index + 1}`} data={item} headers={headers}/>
-                ))
+                showPagination &&
+                <Pagination
+                    totalPages={totalPages}
+                    loadPrevPage={loadPrevPage}
+                    loadNextPage={loadNextPage}
+                    handlePageChange={handlePageChange}
+                    currentPage={currentPage}
+                />
             }
-            </tbody>
-        </table>
+        </div>
     );
 };
 
@@ -92,7 +115,34 @@ const TableRow = ({data, headers}: any) => {
     );
 };
 
+
+const Pagination: ({totalPages, loadPrevPage, loadNextPage, handlePageChange, currentPage}: { totalPages: any; loadPrevPage: any; loadNextPage: any; handlePageChange: any, currentPage: any }) => JSX.Element = ({totalPages, loadPrevPage, loadNextPage, handlePageChange, currentPage}) => {
+    return (
+        <div className={"table-component__pagination pagination"}>
+            <button className={"pagination__prev"} onClick={loadPrevPage} disabled={!(currentPage - 1 > 0)}>
+                <i className="fa-solid fa-chevron-left"></i>
+            </button>
+            <div className="pagination__pages">
+                {
+                    [...Array(totalPages)].map((item, index) => (
+                        <button
+                            key={`pagination-item-${index + 1}`}
+                            className={`pagination__page ${currentPage === index + 1 ? '--active': ''}`}
+                            value={index + 1} onClick={handlePageChange}>
+                            {index + 1}
+                        </button>
+                    ))
+                }
+            </div>
+            <button className={"pagination__next"} onClick={loadNextPage} disabled={!(currentPage < totalPages)}>
+                <i className="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    )
+}
+
 /**
  * Init and export
  */
+
 export default TableComponent;

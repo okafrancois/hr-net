@@ -21,12 +21,28 @@ export interface Employee {
 }
 export interface EmployeesState {
     data: Employee[] | [];
+    currentPage: number;
+    limit: number;
+    totalDocuments: number;
+    totalPages: number;
     loading: boolean;
     error: string | null;
 }
 
+interface GetEmployeesResponse {
+    employees: Employee[];
+    currentPage: number;
+    limit: number;
+    totalDocuments: number;
+    totalPages: number;
+}
+
 const initialState: EmployeesState = {
     data: [],
+    currentPage: 1,
+    limit: 10,
+    totalDocuments: 0,
+    totalPages: 0,
     loading: false,
     error: null,
 }
@@ -39,8 +55,12 @@ const employeesSlice = createSlice({
             state.loading = true;
             state.error = null;
         },
-        getEmployeesSucceed(state, action: PayloadAction<Employee[]>) {
-            state.data = action.payload;
+        getEmployeesSucceed(state, action: PayloadAction<GetEmployeesResponse>) {
+            state.data = action.payload.employees;
+            state.currentPage = action.payload.currentPage;
+            state.limit = action.payload.limit;
+            state.totalDocuments = action.payload.totalDocuments;
+            state.totalPages = action.payload.totalPages;
             state.loading = false;
             state.error = null;
         },
@@ -59,8 +79,23 @@ const employeesSlice = createSlice({
         postEmployeeFailed(state, action: PayloadAction<string>) {
             state.loading = false;
             state.error = action.payload;
+        },
+        updateCurrentPage(state, action: PayloadAction<number>) {
+            state.currentPage = action.payload;
+        },
+        updateLimit(state, action: PayloadAction<number>) {
+            state.limit = action.payload;
         }
     }
 })
-export const { getEmployeesRequest, getEmployeesFailed, getEmployeesSucceed, postEmployeeRequest, postEmployeeSucceed, postEmployeeFailed } = employeesSlice.actions;
+export const {
+    getEmployeesRequest,
+    getEmployeesFailed,
+    getEmployeesSucceed,
+    postEmployeeRequest,
+    postEmployeeSucceed,
+    postEmployeeFailed,
+    updateCurrentPage,
+    updateLimit
+} = employeesSlice.actions;
 export default employeesSlice.reducer;

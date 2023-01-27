@@ -126,9 +126,9 @@ export const editUserData: EditUserFunc = (data, dispatch, resolveCallback) => {
             dispatch(getUserDataFailed(error));
         })
 }
-export const getEmployees = (token: string, dispatch: (arg0: any) => void) => {
+export const getEmployees = (token: string, dispatch: (arg0: any) => void, limit = 10, page = 1) => {
     dispatch(getEmployeesRequest());
-    const uri = `${import.meta.env.VITE_API_URL}/user/employees/page=1?limit=5`;
+    const uri = `${import.meta.env.VITE_API_URL}/user/employees/${page}/${limit}`;
 
     const myHeaders = new Headers({
         "Content-Type": "application/json",
