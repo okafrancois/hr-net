@@ -7,7 +7,7 @@ import {useNavigate} from "react-router";
 import {getEmployees} from "../../app/func";
 import AddEmployee from "../../components/AddEmployee/add-employee";
 import SpModal from "sp-modal";
-import TableComponent from "../../components/TableComponent/table-component";
+import TableComponent from "supa-table";
 
 const headers = [
     {
@@ -70,11 +70,7 @@ const EmployeesListing = () => {
     const user = useAppSelector(state => state.user.data)
     const employees = useAppSelector(state => state.employees.data)
     const {totalDocuments, totalPages, limit, currentPage} = useAppSelector(state => state.employees)
-
-    const [filters, setFilters] = useState({
-        search: '',
-        sort: 'name',
-    })
+    const [modalState, setModalState] = useState(false)
 
     useEffect(() => {
         if (!loggedIn || !token) {
@@ -86,8 +82,6 @@ const EmployeesListing = () => {
         }
     }, [loggedIn, navigate])
 
-    const [modalState, setModalState] = useState(false)
-
     function handleModalToggle(e: any) {
         if (e) {
             e.preventDefault();
@@ -95,10 +89,9 @@ const EmployeesListing = () => {
         setModalState(!modalState)
     }
 
-    const handleLimitChange = function(e: any) {
-        const {value} = e.target;
+    const handleLimitChange = function(limitValue: any) {
         if(token) {
-            getEmployees(token, dispatch, value, 1)
+            getEmployees(token, dispatch, limitValue, 1)
         }
     }
 
@@ -115,46 +108,25 @@ const EmployeesListing = () => {
         setModalState(true)
     }
 
-    const handleSubmit = function(e: any) {
-        e.preventDefault();
-    }
-
     return (
         <Layout containerClass={"employees-listing-view"}>
             <h1>Employees Listing</h1>
-            <form onSubmit={handleSubmit} className={"employee-listing-form"}>
-                <div className="employees-listing-view__headings">
-                    <label className={"employee-listing-form__field search"}>
-                        <i className="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" className={"input"} placeholder={"Search"}/>
-                    </label>
-                    <label className={"employee-listing-form__field"}>
-                        <span>Entries to show</span>
-                        <div className="custom-select">
-                            <select className={"input"} name={"limit"} value={limit} onChange={handleLimitChange}>
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                            </select>
-                        </div>
-                    </label>
-                    <label htmlFor="" className="employee-listing-form__field">
-                        <Link to={'/add-employee'} onClick={openModal}>
-                            <i className="fa fa-user-circle"></i>
-                            Add Employee
-                        </Link>
-                    </label>
-                </div>
+            <div className="employees-listing-view__content">
+                <Link className={"employee-listing-form__field"} to={'/add-employee'} onClick={openModal}>
+                    <i className="fa fa-user-circle"></i>
+                    Add Employee
+                </Link>
                 <TableComponent
                     headers={headers}
                     data={employees}
                     currentPage={currentPage}
                     totalPages={totalPages}
                     limit={limit}
+                    onLimitChange={handleLimitChange}
                     totalResults={totalDocuments}
                     onPageChange={handlePageChange}
                 />
-            </form>
+            </div>
             <SpModal title={"Add new employee"} visible={modalState} closeHandler={handleModalToggle}>
                 <AddEmployee submitCallBack={handleModalToggle}/>
             </SpModal>

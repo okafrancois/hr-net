@@ -1,5 +1,4 @@
 const User = require('../database/models/userModel')
-const Transaction = require('../database/models/employeeModel.js')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 

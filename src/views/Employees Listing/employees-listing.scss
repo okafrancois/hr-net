@@ -12,24 +12,13 @@
     flex-wrap: wrap;
   }
 
-
   .employee-listing-form {
     &__field {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: rem(10);
-
-      &.search {
-        i {
-          position: absolute;
-          left: rem(10);
-        }
-
-        input {
-          padding-left: rem(40);
-        }
-      }
+      position: absolute;
+      right: 0;
+      padding: 10px 15px;
+      background: color('light');
+      border-radius: rem(5);
     }
   }
 
@@ -63,4 +52,13 @@
       }
     }
   }
+
+  &__content {
+    position: relative;
+  }
+}
+
+.table-component-form__field input,
+.table-component-form__field select {
+  border-radius: rem(5);
 }

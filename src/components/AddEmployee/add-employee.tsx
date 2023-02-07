@@ -2,6 +2,7 @@ import React from 'react';
 import './add-employee.scss'
 import {getEmployees, postEmployee} from "../../app/func";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
+
 const AddEmployee = ({submitCallBack}: any) => {
     const token = useAppSelector(state => state.auth.token)
     const dispatch = useAppDispatch()
@@ -20,12 +21,10 @@ const AddEmployee = ({submitCallBack}: any) => {
             startDate,
             jobTitle,
             department,
-            address: {
-                street,
-                city,
-                state,
-                zipcode
-            }
+            street,
+            city,
+            state,
+            zipcode
         }
 
         if (token) {
