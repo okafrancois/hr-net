@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export interface UserState {
     token: string | null;
@@ -27,7 +27,7 @@ const authSlice = createSlice({
             state.loading = true;
             state.error = null;
         },
-        loginSucceed(state, action: PayloadAction<{token: string}>) {
+        loginSucceed(state, action: PayloadAction<{ token: string }>) {
             state.token = action.payload.token;
             state.loggedIn = true;
             state.loading = false;
@@ -44,5 +44,5 @@ const authSlice = createSlice({
     }
 })
 
-export const { loginRequest, loginSucceed, loginFailed, logout } = authSlice.actions;
+export const {loginRequest, loginSucceed, loginFailed, logout} = authSlice.actions;
 export default authSlice.reducer;

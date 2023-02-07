@@ -882,15 +882,15 @@ sourcemap-codec@^1.4.8:
   resolved "https://registry.npmjs.org/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
 
-sp-modal@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/sp-modal/-/sp-modal-1.0.1.tgz"
-  integrity sha512-tfA+j8663sjU9+L5O4blGsugQAL4brNJegdjag9fpsrLPtb6/ocysdN5xiE/1NFTZQ/YJ6AEKz+ZyChwbM4S4w==
+sp-modal@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/sp-modal/-/sp-modal-1.1.1.tgz"
+  integrity sha512-9JVvWGXvpVFuetc4IvR9kdCHCyW1v0ENMrE2TmiCIFMN9WNUtDQNV2iF5JDsQS+Wf76rqX12XXO99j+CsSHAyg==
 
-supa-table@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/supa-table/-/supa-table-1.0.5.tgz"
-  integrity sha512-OsHfPejlItNWl2v7GSLTpt79y2732Sw8rjNmKyGfVJeH76dfa7wWd/sydnrhndy8psBWeYpX30rPeI/GL2dU4Q==
+supa-table@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/supa-table/-/supa-table-1.1.1.tgz"
+  integrity sha512-AIVPJTCC7ufWTdXjO5pPhgp98Kmr6YLioFXcZQ9ZOOJOLcWG388Jw5TbfH0yV5D+T6WyD6f9bKVxv6O7/H9aDg==
   dependencies:
     "@vitejs/plugin-react" "^3.1.0"
     vite "^4.1.1"

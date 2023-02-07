@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-
 export interface Employee {
     _id: string;
     firstName: string;
@@ -19,6 +18,7 @@ export interface Employee {
     updatedAt: string;
     "__v": number;
 }
+
 export interface EmployeesState {
     data: Employee[] | [];
     currentPage: number;

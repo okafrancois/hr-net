@@ -12,7 +12,7 @@ const Header = () => {
     const handleLogout = () => {
         logUserOut(dispatch)
     }
-
+    
     return (
         <header>
             <nav className="main-nav">

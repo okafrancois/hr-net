@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import './employees-listing.scss'
-import Layout from "../../components/Layout/Layout";
+import './employees-listing.scss';
+import Layout from '../../components/Layout/Layout';
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {useNavigate} from "react-router";
 import {getEmployees} from "../../app/func";
 import AddEmployee from "../../components/AddEmployee/add-employee";
-import SpModal from "sp-modal";
 import TableComponent from "supa-table";
+import SpModal from "sp-modal";
 
 const headers = [
     {
@@ -89,19 +89,19 @@ const EmployeesListing = () => {
         setModalState(!modalState)
     }
 
-    const handleLimitChange = function(limitValue: any) {
-        if(token) {
+    const handleLimitChange = function (limitValue: any) {
+        if (token) {
             getEmployees(token, dispatch, limitValue, 1)
         }
     }
 
-    const handlePageChange = function(page: number) {
+    const handlePageChange = function (page: number) {
         if (token) {
             getEmployees(token, dispatch, limit, page)
         }
     }
 
-    const openModal = function(e: any) {
+    const openModal = function (e: any) {
         if (e) {
             e.preventDefault();
         }
@@ -127,7 +127,7 @@ const EmployeesListing = () => {
                     onPageChange={handlePageChange}
                 />
             </div>
-            <SpModal title={"Add new employee"} visible={modalState} closeHandler={handleModalToggle}>
+            <SpModal title={<h3>Add new employee</h3>} visible={modalState} closeHandler={handleModalToggle}>
                 <AddEmployee submitCallBack={handleModalToggle}/>
             </SpModal>
         </Layout>

@@ -58,7 +58,30 @@
   }
 }
 
-.table-component-form__field input,
-.table-component-form__field select {
-  border-radius: rem(5);
+.table-component {
+  &__field {
+    input,
+    select {
+      border-radius: rem(5);
+    }
+  }
+
+  &-form {
+    @media all and (max-width: rem(768)) {
+      &__headings {
+        padding-top: rem(55);
+      }
+
+      &__field {
+        width: 100%;
+
+        select,
+        input,
+        .custom-select,
+        span {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
