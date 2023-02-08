@@ -204,7 +204,6 @@ defaultUsers.forEach(user => {
         })
         .then(response => {
             const jwtToken = response.data.body.token
-
             defaultEmployees.forEach(transaction => {
                 axios
                     .post(employeesApi, transaction, {

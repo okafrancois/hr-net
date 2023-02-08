@@ -58,7 +58,8 @@ module.exports.deleteEmployee = async (req, res) => {
     let response = {}
 
     try {
-        const responseFromService = await employeeService.deleteEmployee(req)
+        const {id} = req.params
+        const responseFromService = await employeeService.deleteEmployee(req, id);
         response.status = 200
         response.message = 'Successfully deleted employee'
         response.body = responseFromService

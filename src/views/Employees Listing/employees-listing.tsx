@@ -6,8 +6,8 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {useNavigate} from "react-router";
 import {getEmployees} from "../../app/func";
 import AddEmployee from "../../components/AddEmployee/add-employee";
-import TableComponent from "supa-table";
 import SpModal from "sp-modal";
+import TableComponent from "supa-table";
 
 const headers = [
     {
@@ -89,7 +89,7 @@ const EmployeesListing = () => {
         setModalState(!modalState)
     }
 
-    const handleLimitChange = function (limitValue: any) {
+    const handleLimitChange = function (limitValue: number) {
         if (token) {
             getEmployees(token, dispatch, limitValue, 1)
         }
@@ -122,6 +122,7 @@ const EmployeesListing = () => {
                     currentPage={currentPage}
                     totalPages={totalPages}
                     limit={limit}
+                    limitOptions={[10, 20, 50]}
                     onLimitChange={handleLimitChange}
                     totalResults={totalDocuments}
                     onPageChange={handlePageChange}

@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  title: Bank Argent API documentation
+  title: HRnet API documentation
   description: Contains all available API endpoints in this codebase
   version: '1.0.0'
   termsOfService: 'http://swagger.io/terms/'
@@ -60,7 +60,7 @@ paths:
   /user/profile:
     post:
       security:
-        - Bearer: []
+        - Bearer: [ ]
       tags:
         - User Module
       summary: User Profile API
@@ -84,7 +84,7 @@ paths:
           description: Internal Server Error
     put:
       security:
-        - Bearer: []
+        - Bearer: [ ]
       tags:
         - User Module
       summary: User Profile API
@@ -116,21 +116,31 @@ paths:
     get:
       tags:
         - User Module
-      summary: Get user transactions
-      description: API for getting all transactions for the logged in user
+      summary: Get employees
+      description: API for getting all employees in the database
       parameters:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
           type: string
           required: true
+        - in: path
+          name: page
+          description: Page number
+          type: integer
+          required: true
+        - in: path
+          name: limit
+          description: Limit number
+          type: integer
+          required: true
       produces:
         - application/json
       responses:
         '200':
-          description: Successfully got user Accounts-listing
+          description: Successfully got employees
           schema:
-            $ref: '#/definitions/UserTransactionsResponse'
+            $ref: '#/definitions/EmployeesResponse'
         '400':
           description: Invalid Fields
         '401':
@@ -140,8 +150,8 @@ paths:
     post:
       tags:
         - User Module
-      summary: Create a new transaction
-      description: API for creating a new transaction
+      summary: Create a new employee
+      description: API for creating a new employee
       parameters:
         - in: header
           name: Authorization
@@ -150,47 +160,17 @@ paths:
           required: true
         - in: body
           name: body
-          description: Create a new transaction
+          description: Create a new employee
           required: true
           schema:
-            $ref: '#/definitions/NewTransaction'
+            $ref: '#/definitions/NewEmployee'
       produces:
         - application/json
       responses:
         '200':
           description: Successfully created a new transaction
           schema:
-            $ref: '#/definitions/UserTransactionsResponse'
-        '400':
-          description: Invalid Fields
-        '401':
-          description: Expired or Invalid Token
-        '500':
-          description: Internal Server Error
-  /employees/{id}:
-    get:
-      tags:
-        - User Module
-      summary: Get a user transaction details
-      description: API for getting a transaction details for the logged in user
-      parameters:
-        - in: path
-          name: id
-          description: The ID of the transaction to retrieve
-          type: string
-          required: true
-        - in: header
-          name: Authorization
-          description: Attach Bearer JWT token
-          type: string
-          required: true
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Successfully got user Accounts-listing
-          schema:
-            $ref: '#/definitions/UserTransactionDetailResponse'
+            $ref: '#/definitions/NewEmployeeResponse'
         '400':
           description: Invalid Fields
         '401':
@@ -200,9 +180,9 @@ paths:
     put:
       responses:
         '200':
-          description: Successfully updated user Accounts-listing
+          description: Successfully updated employee
           schema:
-            $ref: '#/definitions/UpdateTransactionsResponse'
+            $ref: '#/definitions/UpdateEmployeeResponse'
         '400':
           description: Invalid Fields
         '401':
@@ -213,14 +193,9 @@ paths:
         - Bearer: [ ]
       tags:
         - User Module
-      summary: Update a user transaction
+      summary: Update employee
       description: API for updating a user transaction
       parameters:
-        - in: path
-          name: id
-          description: The ID of the transaction to update
-          type: string
-          required: true
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
@@ -231,13 +206,13 @@ paths:
           description: Update user transaction attributes
           required: true
           schema:
-            $ref: '#/definitions/UpdateTransaction'
+            $ref: '#/definitions/UpdateEmployee'
     delete:
       responses:
         '200':
-          description: Successfully deleted user transaction
+          description: Successfully deleted employee
           schema:
-            $ref: '#/definitions/DeleteTransactionResponse'
+            $ref: '#/definitions/DeleteEmployeeResponse'
         '400':
           description: Invalid Fields
         '401':
@@ -248,12 +223,12 @@ paths:
         - Bearer: [ ]
       tags:
         - User Module
-      summary: Delete a user transaction
-      description: API for deleting a user transaction
+      summary: Delete a employee
+      description: API for deleting an employee
       parameters:
-        - in: path
-          name: id
-          description: The ID of the transaction to delete
+        - in: formData
+          name: _id
+          description: The ID of the employee to delete
           type: string
           required: true
         - in: header
@@ -315,101 +290,203 @@ definitions:
         type: string
       lastName:
         type: string
-  UserTransactionDetailResponse:
+  EmployeesResponse:
     items:
       type: object
       properties:
-        _id:
-          type: string
-        userId:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        amount:
+        employees:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+              birthDate:
+                type: string
+              startDate:
+                type: string
+              jobTitle:
+                type: string
+              department:
+                type: string
+              street:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zipcode:
+                type: string
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+              __v:
+                type: number
+              createdBy:
+                type: string
+        totalDocuments:
           type: number
-        newBalance:
+        totalPages:
           type: number
-        type:
-          type: string
-        category:
-          type: string
-        notes:
-          type: string
-        "__v":
+        currentPage:
           type: number
-  UserTransactionsResponse:
-    items:
-      type: object
-      properties:
-        _id:
-          type: string
-        userId:
-          type: string
-        title:
-          type: string
-        description:
-          type: string
-        amount:
+        limit:
           type: number
-        newBalance:
+        remainingPages:
           type: number
-  NewTransaction:
+  NewEmployee:
     type: object
     properties:
-      title:
+      firstName:
         type: string
-      description:
+      lastName:
         type: string
-      amount:
-        type: number
-      newBalance:
-        type: number
-      category:
+      birthDate:
         type: string
-      notes:
+      startDate:
         type: string
-  UpdateTransaction:
-    type: object
-    properties:
-      category:
+      jobTitle:
         type: string
-      notes:
+      department:
         type: string
-  UpdateTransactionsResponse:
+      street:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zipcode:
+        type: string
+  UpdateEmployee:
     type: object
     properties:
       _id:
         type: string
-      userId:
+      firstName:
         type: string
-      title:
+      lastName:
         type: string
-      description:
+      birthDate:
         type: string
-      amount:
-        type: number
-      newBalance:
-        type: number
-      type:
+      startDate:
         type: string
-      category:
+      jobTitle:
         type: string
-      notes:
+      department:
         type: string
-      "__v":
-        type: number
-  DeleteTransactionResponse:
+      street:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zipcode:
+        type: string
+  UpdateEmployeeResponse:
     type: object
     properties:
       _id:
         type: string
-      title:
+      firstName:
         type: string
-      amount:
+      lastName:
+        type: string
+      birthDate:
+        type: string
+      startDate:
+        type: string
+      jobTitle:
+        type: string
+      department:
+        type: string
+      street:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zipcode:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
         type: number
-  DeleteTransaction:
+      createdBy:
+        type: string
+  NewEmployeeResponse:
+    type: object
+    properties:
+      _id:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      birthDate:
+        type: string
+      startDate:
+        type: string
+      jobTitle:
+        type: string
+      department:
+        type: string
+      street:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zipcode:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
+        type: number
+      createdBy:
+        type: string
+  DeleteEmployeeResponse:
+    type: object
+    properties:
+      _id:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      birthDate:
+        type: string
+      startDate:
+        type: string
+      jobTitle:
+        type: string
+      department:
+        type: string
+      street:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zipcode:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+      __v:
+        type: number
+      createdBy:
+        type: string
+  DeleteEmployee:
     type: object
     properties:
       _id:

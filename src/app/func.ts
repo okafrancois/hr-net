@@ -1,9 +1,17 @@
-import {loginSucceed, loginFailed, loginRequest, logout} from "../features/auth/auth-slice";
+import {loginFailed, loginRequest, loginSucceed, logout} from "../features/auth/auth-slice";
 import {getUserDataFailed, getUserDataRequest, getUserDataSucceed} from "../features/user/user-slice";
 import {EditUserFunc, GetUserDataFunc, LogUserInFunc, LogUserOutFunc} from "./func-types";
-import {getEmployeesRequest, getEmployeesFailed, getEmployeesSucceed, postEmployeeRequest, postEmployeeSucceed, postEmployeeFailed} from "../features/employees/employees-slice";
+import {
+    getEmployeesFailed,
+    getEmployeesRequest,
+    getEmployeesSucceed,
+    postEmployeeFailed,
+    postEmployeeRequest,
+    postEmployeeSucceed
+} from "../features/employees/employees-slice";
+import {AnyAction, Dispatch} from "@reduxjs/toolkit";
 
-export const logUserIn: LogUserInFunc = ({ email, password }, dispatch, keepLoggedIn) => {
+export const logUserIn: LogUserInFunc = ({email, password}, dispatch, keepLoggedIn) => {
     dispatch(loginRequest());
 
     const uri = `${import.meta.env.VITE_API_URL}/user/login`;
@@ -27,7 +35,7 @@ export const logUserIn: LogUserInFunc = ({ email, password }, dispatch, keepLogg
     fetch(uri, requestOptions)
         .then(response => response.json())
         .then(result => {
-            const { token } = result.body;
+            const {token} = result.body;
             if (token) {
                 if (keepLoggedIn) {
                     localStorage.setItem('token', token);
@@ -69,7 +77,7 @@ export const getUserData: GetUserDataFunc = (token, dispatch) => {
         .then(response => response.json())
         .then(result => {
             if (result.body) {
-                const { email, firstName, lastName } = result.body;
+                const {email, firstName, lastName} = result.body;
 
                 dispatch(getUserDataSucceed({
                     email,
@@ -109,7 +117,7 @@ export const editUserData: EditUserFunc = (data, dispatch, resolveCallback) => {
         .then(response => response.json())
         .then(result => {
             if (result.body) {
-                const { email, firstName, lastName } = result.body;
+                const {email, firstName, lastName} = result.body;
 
                 dispatch(getUserDataSucceed({
                     email,
@@ -142,7 +150,13 @@ export const getEmployees = (token: string, dispatch: (arg0: any) => void, limit
     };
 
     fetch(uri, requestOptions)
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 401) {
+                logUserOut(dispatch as Dispatch<AnyAction>);
+            }
+
+            return response.json();
+        })
         .then(result => {
             if (result.body) {
                 const data = result.body;

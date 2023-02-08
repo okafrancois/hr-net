@@ -45,7 +45,7 @@ module.exports.getEmployees = async (serviceData, page = 1, limit = 10) => {
     try {
         const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim();
         const decodedJwtToken = jwt.decode(jwtToken);
-        const existingUser = await User.findOne({ _id: decodedJwtToken.id });
+        const existingUser = await User.findOne({_id: decodedJwtToken.id});
 
         if (!existingUser) {
             throw new Error('User not found!');
@@ -73,7 +73,7 @@ module.exports.updateEmployee = async serviceData => {
     try {
         const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
         const decodedJwtToken = jwt.decode(jwtToken)
-        const user = await User.findOne({ _id: decodedJwtToken.id })
+        const user = await User.findOne({_id: decodedJwtToken.id})
 
 
         if (!user) {
@@ -107,18 +107,18 @@ module.exports.updateEmployee = async serviceData => {
     }
 }
 
-module.exports.deleteEmployee = async serviceData => {
+module.exports.deleteEmployee = async (serviceData, id) => {
     try {
         const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
         const decodedJwtToken = jwt.decode(jwtToken)
-        const user = await User.findOne({ _id: decodedJwtToken.id })
+        const user = await User.findOne({_id: decodedJwtToken.id})
 
         if (!user) {
             throw new Error('User not found!')
         }
 
         const existingEmployee = await Employee.findOneAndDelete({
-            _id: serviceData.body._id,
+            _id: id,
         })
 
         if (!existingEmployee) {

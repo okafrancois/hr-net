@@ -3,10 +3,10 @@ const signupApi = 'http://localhost:3001/api/v1/user/signup'
 
 const defaultUsers = [
     {
-        firstName: 'Berny',
-        lastName: 'Doe',
-        email: 'itoutouberny+strapi@gmail.com',
-        password: '@Lt!9YkEkeaMmBRD',
+        firstName: 'Tony',
+        lastName: 'Stark',
+        email: 'tony@stark.com',
+        password: 'password123',
     }
 ]
 

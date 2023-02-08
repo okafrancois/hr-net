@@ -1,6 +1,6 @@
-# Project #10 - Argent Bank API
+# Project #14 - Hrnet API
 
-This codebase contains the code needed to run the backend for Argent Bank.
+This codebase contains the code needed to run the backend for Hrnet.
 
 ## Getting Started
 
@@ -11,7 +11,8 @@ Argent Bank uses the following tech stack:
 - [Node.js v12](https://nodejs.org/en/)
 - [MongoDB Community Server](https://www.mongodb.com/try/download/community)
 
-Please make sure you have the right versions and download both packages. You can verify this by using the following commands in your terminal:
+Please make sure you have the right versions and download both packages. You can verify this by using the following
+commands in your terminal:
 
 ```bash
 # Check Node.js version
@@ -21,12 +22,24 @@ node --version
 mongo --version
 ```
 
+### Configuration
+
+The backend use environment variables to configure the connection to the database.
+You'll find a `.env` file in the backend folder, which contains the following variables:
+
+```bash
+# MongoDB connection string
+DATABASE_URL=mongodb://localhost:27017/hrnetDB
+```
+
+Make sure the `DATABASE_URL` variable is set to the correct connection string for your MongoDB instance.
+The default value is set to `mongodb://localhost:27017/hrnetDB`, which is the default connection string for a local
+MongoDB instance.
+
 ### Instructions
 
-1. Fork this repo
-1. Clone the repo onto your computer
-1. Open a terminal window in the cloned project
-1. Run the following commands:
+1. Open a terminal window in the backend folder
+2. Run the following commands:
 
 ```bash
 # Install dependencies
@@ -34,16 +47,23 @@ npm install
 
 # Start local dev server
 npm run dev:server
-
-# Populate database with two users
-npm run populate-db
 ```
 
-Your server should now be running at http://locahost:3001 and you will now have two users in your MongoDB database!
+Your server should now be running at http://locahost:3001
 
 ## Populated Database Data
 
-Once you run the `populate-db` script, you should have two users in your database:
+Once the server is running, you can the following commands to populate default data in your database:
+
+```bash
+# Populate database with the default user
+npm run populate-db
+
+# Populate database with sample employees
+npm run populate-employees
+```
+
+Once you run the `populate-db` and `populate-employees` script, you should have one user in your database:
 
 ### Tony Stark
 
@@ -52,21 +72,9 @@ Once you run the `populate-db` script, you should have two users in your databas
 - Email: `tony@stark.com`
 - Password: `password123`
 
-### Steve Rogers
-
-- First Name: `Steve`,
-- Last Name: `Rogers`,
-- Email: `steve@rogers.com`,
-- Password: `password456`
+And also a default set of 15 employees.
 
 ## API Documentation
 
-To learn more about how the API works, once you have started your local environment, you can visit: http://localhost:3001/api-docs
-
-## Design Assets
-
-Static HTML and CSS has been created for most of the site and is located in: `/designs`.
-
-For some of the dynamic features, like toggling user editing, there is a mock-up for it in `/designs/wireframes/edit-user-name.png`.
-
-And for the API model that you will be proposing for transactitons, the wireframe can be found in `/designs/wireframes/transactions.png`.
+To learn more about how the API works, once you have started your local environment, you can
+visit: http://localhost:3001/api-docs
