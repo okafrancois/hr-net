@@ -34,9 +34,9 @@
 
   .login-form {
     &__field {
-     display: flex;
-     flex-direction: column;
-     flex-wrap: wrap;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
       gap: rem(5) 0;
     }
 
@@ -64,6 +64,9 @@
 
       input {
         margin-right: rem(40);
+        position: absolute;
+        inset: 0;
+        padding: 10px 10px;
       }
     }
   }

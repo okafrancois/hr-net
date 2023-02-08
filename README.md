@@ -22,6 +22,9 @@ npm install
 
 # Start local dev server
 npm run dev
+
+# Start local prod server
+npm run preview
 ```
 
 Your server should now be running at http://locahost:5173
