@@ -27,6 +27,14 @@ Once the container build is finished, you can access the HR-Net web interface, s
 to `http://localhost:5173` in your web
 browser.
 
-You can run the production preview mode by running `npm run preview` in the `./frontend` folder and then navigate to the
-link
-provide in the terminal.
+## Production preview mode
+
+### requirements
+
+- [Node.js](https://nodejs.org/en/) (v12.16.1 or higher)
+- [npm](https://www.npmjs.com/) (v6.13.4 or higher)
+
+### steps
+
+1. Run `npm install` in the `./frontend` folder.
+2. Run `npm run preview` in the `./frontend` folder.
