@@ -27,6 +27,17 @@ Once the container build is finished, you can access the HR-Net web interface, s
 to `http://localhost:5173` in your web
 browser.
 
+You should have 15 employees and one user in your database:
+
+### Tony Stark
+
+- First Name: `Tony`
+- Last Name: `Stark`
+- Email: `tony@stark.com`
+- Password: `password123`
+
+Use these credentials to log in to the HR-Net web interface.
+
 ## Production preview mode
 
 ### requirements
