@@ -21,8 +21,8 @@
   },
   "scripts": {
     "dev:server": "nodemon ./server/server.js",
-    "populate-db": "node ./server/scripts/populateUsers.js",
-    "populate-employees": "node ./server/scripts/populateEmployees.js",
+    "populate:user": "node ./server/scripts/populateUsers.js",
+    "populate:employees": "node ./server/scripts/populateEmployees.js",
     "server": "node ./server/server.js"
   },
   "devDependencies": {

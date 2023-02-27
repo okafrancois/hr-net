@@ -1,5 +1,10 @@
 const axios = require('axios')
-const signupApi = 'http://localhost:3001/api/v1/user/signup'
+const dotEnv = require("dotenv");
+
+dotEnv.config()
+
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000'
+const signupApi = `${BACKEND_URL}/api/v1/user/signup`
 
 const defaultUsers = [
     {

@@ -49,17 +49,17 @@ npm install
 npm run dev:server
 ```
 
-Your server should now be running at http://locahost:3001
+Your server should now be running at http://locahost:3000
 
 ## Populated Database Data
 
 Once the server is running, you can the following commands to populate default data in your database:
 
 ```bash
-# Populate database with the default user
+# Populate database-sample with the default user
 npm run populate-db
 
-# Populate database with sample employees
+# Populate database-sample with sample employees
 npm run populate-employees
 ```
 
@@ -77,4 +77,4 @@ And also a default set of 15 employees.
 ## API Documentation
 
 To learn more about how the API works, once you have started your local environment, you can
-visit: http://localhost:3001/api-docs
+visit: http://localhost:3000/api-docs

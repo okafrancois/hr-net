@@ -117,7 +117,7 @@ paths:
       tags:
         - User Module
       summary: Get employees
-      description: API for getting all employees in the database
+      description: API for getting all employees in the database-sample
       parameters:
         - in: header
           name: Authorization

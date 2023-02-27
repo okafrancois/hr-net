@@ -1,14 +1,19 @@
 const axios = require('axios')
 const jwt = require("jsonwebtoken");
-const loginApi = 'http://localhost:3001/api/v1/user/login'
-const employeesApi = 'http://localhost:3001/api/v1/user/employees'
+const dotEnv = require("dotenv");
+
+dotEnv.config()
+
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000'
+const loginApi = `${BACKEND_URL}/api/v1/user/login`
+const employeesApi = `${BACKEND_URL}/api/v1/user/employees`
 
 const defaultUsers = [
     {
-        firstName: 'Berny',
-        lastName: 'Doe',
-        email: 'itoutouberny+strapi@gmail.com',
-        password: '@Lt!9YkEkeaMmBRD',
+        firstName: 'Tony',
+        lastName: 'Stark',
+        email: 'tony@stark.com',
+        password: 'password123',
     }
 ]
 

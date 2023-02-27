@@ -9,9 +9,9 @@ const dbConnection = require('./database/connection')
 dotEnv.config()
 
 const app = express()
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 
-// Connect to the database
+// Connect to the database-sample
 dbConnection()
 
 // Handle CORS issues
@@ -19,20 +19,20 @@ app.use(cors())
 
 // Request payload middleware
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({extended: true}))
 
 // Handle custom routes
 app.use('/api/v1/user', require('./routes/userRoutes'))
 
 // API Documentation
 if (process.env.NODE_ENV !== 'production') {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 }
 
 app.get('/', (req, res, next) => {
-  res.send('Hello from my Express server v2!')
+    res.send('Hello from my Express server v2!')
 })
 
 app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`)
+    console.log(`Server listening on http://localhost:${PORT}`)
 })
