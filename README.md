@@ -7,18 +7,18 @@ track of your employees' information, payroll, and other important HR-related da
 Installation
 ------------
 
-To install HR-Net, you need to have [Docker](https://www.docker.com/)
-and [docker-compose](https://docs.docker.com/compose/) installed on your system. Once you have those installed, you can
-clone this repository and run the following command:
+To install HR-Net, you need to
+have [Docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed on your system.
+
+Once you have those installed, you can clone this repository and run the following command:
 
 Scripts
 -------
 
-HR-Net comes with two scripts that you can use to manage the docker container:
+HR-Net comes with two scripts that you can use to manage the docker container (run in the root folder):
 
-- `npm start`: Starts the docker container and HR-Net in dev mode.
-- `npm stop`: Stops the docker container and HR-Net.
-- `npm stop:rm`: Stops the docker container and HR-Net, also remove the docker images and containers.
+- `docker-compose up`: Starts the docker container and HR-Net in dev mode.
+- `docker-compose down`: Stops the docker container and HR-Net.
 
 Usage
 -----
