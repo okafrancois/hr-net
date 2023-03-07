@@ -7,7 +7,7 @@ COPY package-lock.json /app
 
 RUN npm install
 
-COPY .. /app
+COPY / /app
 
 EXPOSE 5173
 
