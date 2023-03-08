@@ -1,4 +1,4 @@
-name: Build and Deploy Docker Compose
+name: Build and Deploy to GKE
 
 on:
   push:
@@ -6,13 +6,16 @@ on:
       - main
 
 env:
-  DOCKER_COMPOSE_FILE: docker-compose.yml
-  IMAGE_NAME: hrnet-app
-  IMAGE_TAG: ${{ github.sha }}
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: devcluster    # Add your cluster name here.
+  GKE_ZONE: us-central1   # Add your cluster zone here.
+  IMAGE_BACKEND: backend
+  IMAGE_FRONTEND: frontend
+  MONGODB_URL: "mongodb://mongodb_c:27017/hrnetDB"
 
 jobs:
-  deploy:
-    name: Deploy to Docker Swarm
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
     environment: production
 
@@ -20,29 +23,52 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
+      # Setup gcloud CLI
+      - uses: google-github-actions/setup-gcloud@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
 
-      - name: Build Docker Compose configuration
-        run: docker-compose -f $DOCKER_COMPOSE_FILE build
+      # Configure Docker to use the gcloud command-line tool as a credential
+      # helper for authentication
+      - run: |-
+          gcloud --quiet auth configure-docker
 
-      - name: Tag Docker Compose images
-        run: |
-          docker tag ${IMAGE_NAME}_backend ${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}_backend:${IMAGE_TAG}
-          docker tag ${IMAGE_NAME}_frontend ${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}_frontend:${IMAGE_TAG}
-
-      - name: Push Docker Compose images
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}_backend:${IMAGE_TAG}
-          docker push ${{ secrets.DOCKER_USERNAME }}/${IMAGE_NAME}_frontend:${IMAGE_TAG}
-
-      - name: Deploy Docker Compose configuration to Docker Swarm
-        uses: docker/swarm-action@v2
+      # Get the GKE credentials so we can deploy to the cluster
+      - uses: google-github-actions/get-gke-credentials@v1
         with:
-          compose-file: $DOCKER_COMPOSE_FILE
-          with_registry: true
-          registry_username: ${{ secrets.DOCKER_USERNAME }}
-          registry_password: ${{ secrets.DOCKER_PASSWORD }}
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+          credentials: ${{ secrets.GKE_SA_KEY }}
+
+      # Build and push the backend Docker image
+      - name: Build and push backend image
+        env:
+          IMAGE_NAME: gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_BACKEND }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |-
+          docker build -t $IMAGE_NAME:$IMAGE_TAG ./backend
+          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+          docker push $IMAGE_NAME
+
+      # Build and push the frontend Docker image
+      - name: Build and push frontend image
+        env:
+          IMAGE_NAME: gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_FRONTEND }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |-
+          docker build -t $IMAGE_NAME:$IMAGE_TAG ./frontend
+          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+          docker push $IMAGE_NAME
+
+      # Deploy the backend and frontend services to the GKE cluster
+      - name: Deploy
+        env:
+          BACKEND_NAME: backend
+          FRONTEND_NAME: frontend
+        run: |-
+          kubectl apply -f k8s/backend-deployment.yaml
+          kubectl apply -f k8s/frontend-deployment.yaml
+          kubectl apply -f k8s/mongodb-deployment.yaml
+          kubectl rollout status deployment/${BACKEND_NAME}
+          kubectl rollout status deployment/${FRONTEND_NAME}
