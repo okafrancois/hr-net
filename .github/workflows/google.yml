@@ -52,7 +52,7 @@ jobs:
       # Build and push the backend Docker image
       - name: Build and push backend image
         env:
-          IMAGE_NAME: gcr.io/hrnet-379908/${{ env.IMAGE_BACKEND }}
+          IMAGE_NAME: gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_BACKEND }}
           IMAGE_TAG: ${{ github.sha }}
         run: |-
           docker build -t $IMAGE_NAME:$IMAGE_TAG ./backend
@@ -62,7 +62,7 @@ jobs:
       # Build and push the frontend Docker image
       - name: Build and push frontend image
         env:
-          IMAGE_NAME: gcr.io/hrnet-379908/${{ env.IMAGE_FRONTEND }}
+          IMAGE_NAME: gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_FRONTEND }}
           IMAGE_TAG: ${{ github.sha }}
         run: |-
           docker build -t $IMAGE_NAME:$IMAGE_TAG ./frontend
