@@ -25,7 +25,7 @@ const Header = () => {
                         !loggedIn &&
                         <Link className="main-nav-item" to={'/login'}>
                             <i className="fa fa-user-circle"></i>
-                            Sign In
+                            <span className={"main-nav-item__text"}>Sign In</span>
                         </Link>
                     }
                     {loggedIn &&
@@ -38,7 +38,7 @@ const Header = () => {
                         loggedIn &&
                         <a href={"#"} className="main-nav-item" onClick={handleLogout}>
                             <i className="fa-sharp fa-solid fa-right-from-bracket"></i>
-                            Sign Out
+                            <span className={"main-nav-item__text"}>Sign Out</span>
                         </a>
                     }
                 </div>

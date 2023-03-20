@@ -85,3 +85,8 @@
     }
   }
 }
+
+.table-component__table {
+  overflow: hidden !important;
+  overflow-x: scroll !important;
+}

@@ -12,6 +12,10 @@
   height: 70px;
   z-index: 100;
 
+  @include down(580) {
+    padding: 5px rem(15);
+  }
+
   div {
     display: flex;
     align-items: center;
@@ -33,6 +37,12 @@
 .main-nav-item {
   text-decoration: none;
   margin-right: 0.5rem;
+
+  &__text {
+    @include down(580) {
+      display: none;
+    }
+  }
 }
 
 .main-nav-logo {

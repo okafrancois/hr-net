@@ -7,17 +7,33 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: rem(100);
   background-color: color('light');
+  padding-top: rem(30);
+  padding-bottom: rem(100);
+
+  @include down(580) {
+    padding-top: rem(15);
+  }
 
   &__headings {
     text-align: center;
     margin-bottom: rem(60);
+
+    @include down(580) {
+      margin-bottom: rem(30);
+    }
   }
 
   &__logo {
     width: 100px;
     height: auto;
+  }
+
+  &__title {
+    @include down(580) {
+      font-weight: 500;
+      line-height: 120%;
+    }
   }
 
   &__form {
@@ -30,6 +46,11 @@
     gap: rem(30) 0;
     border-radius: rem(5);
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+    @include down(580) {
+      min-width: 100%;
+      padding: rem(15);
+    }
   }
 
   .login-form {

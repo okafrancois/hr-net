@@ -9,3 +9,15 @@
 @function rem($value) {
   @return calc($value / 16 * 1rem);
 }
+
+@mixin up($breakpoint) {
+  @media all and (min-width: rem($breakpoint)) {
+    @content;
+  }
+}
+
+@mixin down($breakpoint) {
+  @media all and (max-width: rem($breakpoint)) {
+    @content;
+  }
+}

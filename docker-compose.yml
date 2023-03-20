@@ -13,9 +13,9 @@ services:
     container_name: backend_c
     environment:
       DATABASE_URL: "mongodb://mongodb_c:27017/hrnetDB"
-      PORT: "3000"
+      PORT: ${API_PORT}
     ports:
-      - "3000:3000"
+      - "${API_PORT}:${API_PORT}"
     volumes:
       - ./backend:/app
       - /app/node_modules
@@ -25,8 +25,11 @@ services:
   frontend:
     build: ./frontend
     container_name: frontend_c
+    environment:
+      VITE_PORT: ${VITE_PORT}
+      VITE_API_URL: ${VITE_API_URL}
     ports:
-      - "5173:5173"
+      - "${VITE_PORT}:${VITE_PORT}"
     volumes:
       - ./frontend:/app
       - /app/node_modules
