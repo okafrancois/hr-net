@@ -1,13 +1,13 @@
 version: "3.8"
 services:
   mongodb:
-    image: mongo
+    build: ./database
     container_name: mongodb_c
     ports:
       - "27017:27017"
-    restart: always
     volumes:
-      - ./mongodb:/data/db
+      - ./database:/data/db
+    restart: always
   backend:
     build: ./backend
     container_name: backend_c
@@ -27,9 +27,12 @@ services:
     container_name: frontend_c
     environment:
       VITE_PORT: ${VITE_PORT}
+      VITE_PREVIEW_PORT: ${VITE_PREVIEW_PORT}
       VITE_API_URL: ${VITE_API_URL}
+      RUN_MODE: ${RUN_MODE}
     ports:
       - "${VITE_PORT}:${VITE_PORT}"
+      - "${VITE_PREVIEW_PORT}:${VITE_PREVIEW_PORT}"
     volumes:
       - ./frontend:/app
       - /app/node_modules

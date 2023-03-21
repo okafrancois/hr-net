@@ -1,4 +1,7 @@
 FROM node:18-alpine
+
+ENV RUN_MODE=dev
+
 RUN npm install -g docker
 WORKDIR /app
 
@@ -9,7 +12,6 @@ RUN npm install
 
 COPY / /app
 
-EXPOSE $VITE_PORT
-EXPOSE $VITE_PREVIEW_PORT
-
-CMD ["npm", "run", "dev"]
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
