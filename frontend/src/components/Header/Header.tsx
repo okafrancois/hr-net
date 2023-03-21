@@ -36,7 +36,7 @@ const Header = () => {
                     }
                     {
                         loggedIn &&
-                        <a href={"#"} className="main-nav-item" onClick={handleLogout}>
+                        <a href={"#"} aria-label={"Sign out button"} className="main-nav-item" onClick={handleLogout}>
                             <i className="fa-sharp fa-solid fa-right-from-bracket"></i>
                             <span className={"main-nav-item__text"}>Sign Out</span>
                         </a>
